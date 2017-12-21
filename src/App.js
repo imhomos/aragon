@@ -1,6 +1,7 @@
 import React from 'react'
 import createHistory from 'history/createHashHistory'
 import { styled, AragonApp } from '@aragon/ui'
+import App404 from './components/App404/App404'
 import Home from './components/Home/Home'
 import MenuPanel from './components/MenuPanel/MenuPanel'
 import { apps, notifications, tokens, prices, homeActions } from './demo-state'
@@ -31,6 +32,13 @@ class App extends React.Component {
     if (path !== this.state.path) {
       this.history.push(path)
     }
+  }
+  isAppInstalled(appId) {
+    return (
+      appId === 'home' ||
+      appId === 'settings' ||
+      !!apps.find(app => app.id === appId)
+    )
   }
   handleNavigation = location => {
     this.setState({ path: location.pathname })
@@ -76,6 +84,7 @@ class App extends React.Component {
             onOpenApp={this.handleOpenApp}
           />
           <AppScreen>
+            {!this.isAppInstalled(appId) && <App404 appId={appId} />}
             {appId === 'home' && (
               <Home
                 tokens={tokens}
