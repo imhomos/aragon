@@ -40,6 +40,9 @@ class App extends React.Component {
       !!apps.find(app => app.id === appId)
     )
   }
+  handleNavigateBack = () => {
+    this.history.goBack()
+  }
   handleNavigation = location => {
     this.setState({ path: location.pathname })
   }
@@ -84,7 +87,9 @@ class App extends React.Component {
             onOpenApp={this.handleOpenApp}
           />
           <AppScreen>
-            {!this.isAppInstalled(appId) && <App404 appId={appId} />}
+            {!this.isAppInstalled(appId) && (
+              <App404 onNavigateBack={this.handleNavigateBack} />
+            )}
             {appId === 'home' && (
               <Home
                 tokens={tokens}
