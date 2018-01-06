@@ -8,6 +8,7 @@ import { apps, notifications, tokens, prices, homeActions } from './demo-state'
 
 class App extends React.Component {
   state = {
+    lastPath: '',
     path: '',
     sidePanelOpened: false,
     notifications,
@@ -41,10 +42,13 @@ class App extends React.Component {
     )
   }
   handleNavigateBack = () => {
-    this.history.goBack()
+    this.state.lastPath ? this.history.goBack() : this.history.replace('/')
   }
   handleNavigation = location => {
-    this.setState({ path: location.pathname })
+    this.setState({
+      lastPath: this.state.path,
+      path: location.pathname,
+    })
   }
   handleOpenApp = (appId, instanceId) => {
     if (appId === 'home') {
